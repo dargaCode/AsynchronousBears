@@ -8,7 +8,6 @@ const request = require('request');
 // CONSTANTS
 
 const DICT_PATH = './dict/bears.dictionary';
-const WIKI_INFO_LENGTH = 200;
 
 // FUNCTIONS
 
@@ -78,20 +77,51 @@ function getWikipediaInfo(searchTerm, callback) {
     }
 
     const searchResults = JSON.parse(body);
-    const trimmedInfo = getTrimmedInfo(searchResults);
+    const summary = getSummary(searchResults);
 
-    callback(null, trimmedInfo);
+    callback(null, summary);
   });
 }
 
-function getTrimmedInfo(searchResults) {
+function getSummary(searchResults) {
   const pages = searchResults.query.pages;
   const firstPageKey = Object.keys(pages)[0];
   const summary = pages[firstPageKey].extract;
-  const trimmedInfo = summary.slice(0, WIKI_INFO_LENGTH);
+  const text = getCleanedUpText(summary);
+  const trimmedText = getFirstTwoSentences(text);
 
-  return trimmedInfo;
+  return trimmedText;
 }
+
+function getCleanedUpText(str) {
+  str = removeParentheticals(str);
+  str = removeHtml(str);
+
+  return str;
+}
+
+function removeParentheticals(str) {
+  return str
+    // remove empty spaces before open perentheticals (so no holes are left)
+    .replace(/\s([\(\[])/g, '$1')
+    // remove text (like this) and [like this]
+    .replace(/[\(\[].+?[\)\]]/g, '');
+}
+
+function removeHtml(str) {
+  return str
+    // remove html tags
+    .replace(/<.+?>/g, '')
+    // remove newline characters
+    .replace(/\n/g, ' ');
+}
+
+function getFirstTwoSentences(str) {
+  const firstPeriodIndex = str.indexOf('.');
+  const secondPeriodIndex = str.indexOf('.', firstPeriodIndex + 1);
+
+  return str.slice(0, secondPeriodIndex + 1);
+};
 
 // MAIN
 
