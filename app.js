@@ -27,7 +27,7 @@ function getBears(bearsPath, callback) {
     const dict = getLineArrayFromFileBuffer(dictBuffer);
     const validBears = filterArrayByArray(bears, dict);
 
-    console.log('INITIAL BEAR LIST:', bears, '\n');
+    console.log(`\nINITIAL BEAR LIST: \n ${bears} \n`);
 
     callback(null, validBears);
   }
@@ -124,9 +124,16 @@ function getFirstTwoSentences(str) {
 getBears('bears-input.txt', function(err, bears) {
   bears = bears.sort();
 
-  console.log('VALID BEAR LIST:', bears, '\n');
+  console.log(`VALIDATED BEAR LIST: \n ${bears} \n`);
 
   describeAllBears(bears, function(result) {
-    console.log('\nTHE FINAL RESULT IS: \n\n', result);
+    console.log('BEAR DESCRIPTIONS: \n');
+
+    for (bear in result) {
+      const name = bear.toUpperCase();
+
+      console.log(` ${name}: \n`);
+      console.log(`  "${result[bear]}" \n`);
+    }
   });
 });
