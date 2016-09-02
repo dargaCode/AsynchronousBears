@@ -1,14 +1,23 @@
 {
-  "name": "bears",
+  "name": "asynchronous-bears",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "dargaCode@gmail.com",
   "license": "ISC",
   "dependencies": {
     "request": "^2.74.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dargaCode/AsynchronousBears.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dargaCode/AsynchronousBears/issues"
+  },
+  "homepage": "https://github.com/dargaCode/AsynchronousBears#readme",
+  "description": "Load two text files, filter one by the other, then get summary text from wikipedia for each valid entry."
 }
