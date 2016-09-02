@@ -33,23 +33,21 @@ function getBears(bearsPath, callback) {
   }
 }
 
-function getBearDescription(bears, callback) {
-  let count = bears.length;
+function describeAllBears(bears, callback) {
   let resultObj = {};
 
-  bears.forEach(function(element) {
-    getWikipediaInfo(element, function(err, intro) {
+  describeBearRecursive();
 
-      resultObj[element.toUpperCase()] = intro;
-      nextBear();
-    });
-  })
-
-  function nextBear() {
-    count--;
-    console.log("Requests remaining:", count);
-    if (count < 1) {
+  function describeBearRecursive() {
+    if(!bears.length) {
       callback(resultObj);
+    } else {
+      const bear = bears.shift();
+      getWikiInfo(bear, function(err, bearInfo) {
+        resultObj[bear] = bearInfo;
+
+        describeBearRecursive();
+      });
     }
   }
 }
@@ -66,9 +64,7 @@ function filterArrayByArray(arrayA, arrayB) {
   });
 }
 
-/* the tutorial loaded images instead, but I guess he was using a feature of io.js that didn't survive the merge
-back into node.js? */
-function getWikipediaInfo(searchTerm, callback) {
+function getWikiInfo(searchTerm, callback) {
   const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=${searchTerm}`;
 
   request(searchUrl, function(error, response, body) {
@@ -126,9 +122,11 @@ function getFirstTwoSentences(str) {
 // MAIN
 
 getBears('bears-input.txt', function(err, bears) {
+  bears = bears.sort();
+
   console.log('VALID BEAR LIST:', bears, '\n');
 
-  getBearDescription(bears, function(result) {
+  describeAllBears(bears, function(result) {
     console.log('\nTHE FINAL RESULT IS: \n\n', result);
   });
 });
