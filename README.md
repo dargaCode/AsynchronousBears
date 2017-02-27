@@ -11,4 +11,4 @@ The tough part is returning all of those descriptions in the original order, in 
 
 Most of the code I wrote was based on this <a href="http://blog.dargacode.com/post/149805676176/mastering-asynchronous-javascript-callbacks">this video</a>, though I decided to load text from wikipedia instead of images, so I could keep it a console app. 
 
-<img src ="http://67.media.tumblr.com/bf031a663f80bb325cd3e462293586c5/tumblr_inline_ocurobTDLp1tvc5hi_1280.png" width="650">
+<img src ="http://68.media.tumblr.com/bf031a663f80bb325cd3e462293586c5/tumblr_inline_ocurobTDLp1tvc5hi_1280.png" width="650">
