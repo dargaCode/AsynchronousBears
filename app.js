@@ -68,7 +68,7 @@ function getWikiInfo(searchTerm, callback) {
   const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=${searchTerm}`;
 
   request(searchUrl, function(error, response, body) {
-    if (error || response.statusCode != 200) {
+    if (error || response.statusCode !== 200) {
       callback([response.statusCode, error]);
     }
 
@@ -84,9 +84,8 @@ function getSummary(searchResults) {
   const firstPageKey = Object.keys(pages)[0];
   const summary = pages[firstPageKey].extract;
   const text = getCleanedUpText(summary);
-  const trimmedText = getFirstTwoSentences(text);
 
-  return trimmedText;
+  return getFirstTwoSentences(text);
 }
 
 function getCleanedUpText(str) {
@@ -98,7 +97,7 @@ function getCleanedUpText(str) {
 
 function removeParentheticals(str) {
   return str
-    // remove empty spaces before open perentheticals (so no holes are left)
+    // remove empty spaces before open parentheticals (so no holes are left)
     .replace(/\s([\(\[])/g, '$1')
     // remove text (like this) and [like this]
     .replace(/[\(\[].+?[\)\]]/g, '');
@@ -117,7 +116,7 @@ function getFirstTwoSentences(str) {
   const secondPeriodIndex = str.indexOf('.', firstPeriodIndex + 1);
 
   return str.slice(0, secondPeriodIndex + 1);
-};
+}
 
 // MAIN
 
@@ -129,7 +128,7 @@ getBears('bears-input.txt', function(err, bears) {
   describeAllBears(bears, function(result) {
     console.log('BEAR DESCRIPTIONS: \n');
 
-    for (bear in result) {
+    for (const bear in result) {
       const name = bear.toUpperCase();
 
       console.log(` ${name}: \n`);
